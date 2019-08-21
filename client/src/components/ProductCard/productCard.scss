@@ -1,0 +1,33 @@
+@import "@/styles/variables.scss";
+
+.product-card{
+    max-width: 300px;
+    margin: 0 1rem;
+    border: 1px solid #eee;
+
+    &__content{
+        margin-top: .5rem;
+        padding: .6rem;
+        font-size: 1.1rem;
+        line-height: 160%;
+    }
+    &__name{
+        font-size: 1.3rem;
+    }
+    &__button{
+        button{
+            width: 100%;
+            @include input_reset();
+            background-color: $light_blue;
+            margin-top: .5rem;
+            padding: .5rem;
+            color: #fff;
+            border-radius: 20px;
+            &:hover{
+                cursor: pointer;
+                opacity: .8;
+                transition: .2s;
+            }
+        }
+    }
+}
