@@ -3,5 +3,6 @@
 .home{
     &__products{
         @include flex_horizontal_center();
+        flex-wrap: wrap;
     }
 }

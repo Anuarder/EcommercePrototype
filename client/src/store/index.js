@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { findIndex } from 'lodash'
+// import { findIndex } from 'lodash'
+import ShoppingCartServices from "../services/ShoppingCart"
 
 Vue.use(Vuex)
 
@@ -8,10 +9,7 @@ export default new Vuex.Store({
 	state: {
 		apiContext: '',
 		products: [],
-		shoppingCart: {
-			totalQuantity: 0,
-			products: []
-		}
+		shoppingCart: {}
 	},
 	mutations: {
 		SET_API_CONTEXT(state, apiContext) {
@@ -21,16 +19,7 @@ export default new Vuex.Store({
 			state.products = products
 		},
 		ADD_TO_CART(state, product){
-			const shoppingCart = state.shoppingCart;
-			shoppingCart.totalQuantity += product.quantity;
-			const index = findIndex(shoppingCart.products, el => (
-				el.id === product.id
-			));
-			if(index !== -1){
-				shoppingCart.products[index].quantity += product.quantity;
-			}else{
-				shoppingCart.products.push(product);
-			}
+			state.shoppingCart = product;
 		}
 	},
 	actions: {
@@ -40,8 +29,17 @@ export default new Vuex.Store({
 		getProducts({ commit }, products){
 			commit('SET_PRODUCTS', products);
 		},
-		addToCart({ commit }, product){
-			commit('ADD_TO_CART', product);
+		async addToCart({ commit }, product){
+            try{
+                let response = await ShoppingCartServices.addToCart({
+                    cart_id: '',
+                    products: ''
+                });
+                console.log(response);
+                commit('ADD_TO_CART', product);
+            }catch(err){
+                console.log(err);
+            }
 		}
 	}
 })

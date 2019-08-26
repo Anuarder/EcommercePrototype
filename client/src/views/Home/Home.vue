@@ -29,7 +29,7 @@ export default {
 		async getProducts() {
 			try {
 				let response = await ProductsServices.getProducts();
-				this.$store.dispatch("getProducts", response.data.products);
+				this.$store.dispatch("getProducts", response.data);
 			} catch (err) {
 				alert(err.response.data);
 			}

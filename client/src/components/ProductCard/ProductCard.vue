@@ -1,20 +1,34 @@
 <template>
     <div class="product-card">
         <div class="product-card__image">
-            <img :src="product.image">
+            <img :src="mainImage(product)" alt="">
         </div>
         <div class="product-card__content">
             <div class="product-card__name">
-                {{product.name}}
+                {{product.title}}
             </div>
             <div class="product-card__detail">
-                {{product.description}}
+                {{product.description.ru}}
             </div>
-            <div class="product-card__price">
-                ${{product.price}}
-            </div>
-            <div class="product-card__button">
-                <button @click="addToCart">add to cart</button>
+            <hr>
+            <div class="product-card__actions">
+                <div class="product-card__price-container">
+                    <span
+                        v-if="isDiscount(product)"
+                        class="discount-price">
+                        ${{getPrice(product).discount_amount}}
+                    </span>
+                    <span 
+                        class="price"
+                        :class="isDiscount(product) ? 'old-price' : ''">
+                        ${{getPrice(product).amount}}
+                    </span>
+                </div>
+                <button @click="addToCart" class="product-card__button">
+                    <i class="material-icons">
+                        shopping_cart
+                    </i>
+                </button>
             </div>
         </div>
     </div>
@@ -30,6 +44,15 @@ export default {
                 id: this.product._id,
                 quantity: 1
             });
+        },
+        isDiscount(product){
+            return product.prices[0].discount_rate !== 0;
+        },
+        getPrice(product){
+            return product.prices[0];
+        },
+        mainImage(product){
+            return product.photos[0];
         }
     }
 }
